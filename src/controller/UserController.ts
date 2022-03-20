@@ -47,9 +47,9 @@ export class UserController {
             res.status(200).send({ token });
 
         } catch (error) {
-            if( error instanceof BaseError){
+            // if( error instanceof BaseError){
                 res.status(400).send({ error: error.message });
-            }
+            // }
         }
 
         // await BaseDatabase.destroyConnection();

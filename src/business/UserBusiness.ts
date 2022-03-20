@@ -1,4 +1,4 @@
-import { UserInputDTO, LoginInputDTO } from "../model/User";
+import { UserInputDTO, LoginInputDTO, User } from "../model/User";
 import { UserData } from "../data/UserData";
 import { IdGenerator } from "../services/IdGenerator";
 import { HashManager } from "../services/HashManager";
@@ -9,10 +9,11 @@ const hashManager = new HashManager();
 const authenticator = new Authenticator();
 const userDatabase = new UserData();
 
-export class UserBusiness {
+export class UserBusiness extends User {
 
     SignUp = async (user: UserInputDTO): Promise<string> => {
-
+         
+        UserBusiness.stringToUserRole(user.role)
         
         const id = idGenerator.generate();
         
