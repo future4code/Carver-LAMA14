@@ -1,37 +1,37 @@
-import { UserInputDTO, LoginInputDTO } from "../model/User";
-import { UserDatabase } from "../data/UserDatabase";
+import { UserInputDTO, LoginInputDTO, User } from "../model/User";
+import { UserData } from "../data/UserData";
 import { IdGenerator } from "../services/IdGenerator";
 import { HashManager } from "../services/HashManager";
 import { Authenticator } from "../services/Authenticator";
 
-export class UserBusiness {
+const idGenerator = new IdGenerator();
+const hashManager = new HashManager();
+const authenticator = new Authenticator();
+const userDatabase = new UserData();
 
-    async createUser(user: UserInputDTO) {
+export class UserBusiness extends User {
 
-        const idGenerator = new IdGenerator();
+    SignUp = async (user: UserInputDTO): Promise<string> => {
+         
+        UserBusiness.stringToUserRole(user.role)
+        
         const id = idGenerator.generate();
-
-        const hashManager = new HashManager();
+        
         const hashPassword = await hashManager.hash(user.password);
+        
+        await userDatabase.InsertUser(id, user.email, user.name, hashPassword, user.role);
 
-        const userDatabase = new UserDatabase();
-        await userDatabase.createUser(id, user.email, user.name, hashPassword, user.role);
-
-        const authenticator = new Authenticator();
         const accessToken = authenticator.generateToken({ id, role: user.role });
 
         return accessToken;
     }
 
-    async getUserByEmail(user: LoginInputDTO) {
+    Login = async (user: LoginInputDTO): Promise<string> => {
 
-        const userDatabase = new UserDatabase();
         const userFromDB = await userDatabase.getUserByEmail(user.email);
 
-        const hashManager = new HashManager();
         const hashCompare = await hashManager.compare(user.password, userFromDB.getPassword());
 
-        const authenticator = new Authenticator();
         const accessToken = authenticator.generateToken({ id: userFromDB.getId(), role: userFromDB.getRole() });
 
         if (!hashCompare) {

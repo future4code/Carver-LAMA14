@@ -1,19 +1,20 @@
-import dotenv from "dotenv";
-import {AddressInfo} from "net";
-import express from "express";
+import { app } from "./app";
+import bandData from "./endpoints/createBand";
+import SerchBandById from "./endpoints/SearchBandById";
+import { bandsRouter } from "./routes/bandRouter";
 import { userRouter } from "./routes/userRouter";
-dotenv.config();
-const app = express();
 
-app.use(express.json());
 
-app.use("/user", userRouter);
+app.use("/users",userRouter)
 
-const server = app.listen(3000, () => {
-    if (server) {
-      const address = server.address() as AddressInfo;
-      console.log(`Servidor rodando em http://localhost:${address.port}`);
-    } else {
-      console.error(`Falha ao rodar o servidor.`);
-    }
-  });
+// app.use("bands", bandsRouter)
+
+const createBand = new bandData()
+const serchBandById = new SerchBandById()
+
+app.post("/bands/create", createBand.CreateBand)
+app.get("/bands/query", serchBandById.serchBand)
+
+export const isEven = (integer: any): boolean => {
+  return integer % 2 == 0
+}
