@@ -1,0 +1,33 @@
+POST http://localhost:3003/users/signup
+Content-Type: application/json
+
+{
+    "email": "natalia@nat.com",
+    "name": "nat",
+    "password": "1645109738351",
+    "role": "ADMIN"
+}
+
+###
+
+POST http://localhost:3003/users/login
+Content-Type: application/json
+
+{
+    "email": "fran@ala.com",
+    "password": "1645109738351"
+}
+
+# "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgzZTdkZGFjLWVhN2QtNDFlNy1hNDUzLWM1YmNjOTNkNmMxNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY0NzgwNzQyNCwiZXhwIjoxNjQ3ODA4MDI0fQ.6kVviCEN4EDHBgQEcjMbuO0avHjF0i7dmxMxkOhK7Ok"
+
+###
+
+POST http://localhost:3003/bands/create
+# Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgzZTdkZGFjLWVhN2QtNDFlNy1hNDUzLWM1YmNjOTNkNmMxNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY0NzgwNzQyNCwiZXhwIjoxNjQ3ODA4MDI0fQ.6kVviCEN4EDHBgQEcjMbuO0avHjF0i7dmxMxkOhK7Ok
+Content-Type: application/json
+
+{
+    "name": "vegas",
+    "musicGenre": "psy trace",
+    "responsible": "vegas"
+}
